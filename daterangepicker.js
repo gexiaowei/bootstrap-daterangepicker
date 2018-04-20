@@ -1326,8 +1326,40 @@
             var is_left = cal.hasClass('left');
 
             if (is_left) {
+                if (date.isAfter(this.endDate, 'day')) {
+                    if (this.timePicker) {
+                        var hour = parseInt(this.container.find('.right .hourselect').val(), 10);
+                        if (!this.timePicker24Hour) {
+                            var ampm = this.container.find('.right .ampmselect').val();
+                            if (ampm === 'PM' && hour < 12)
+                                hour += 12;
+                            if (ampm === 'AM' && hour === 12)
+                                hour = 0;
+                        }
+                        var minute = parseInt(this.container.find('.left .minuteselect').val(), 10);
+                        var second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : 0;
+                        date = date.clone().hour(hour).minute(minute).second(second);
+                    }
+                    this.setEndDate(date.clone());
+                }
                 this.setStartDate(date.clone());
             } else {
+                if (date.isBefore(this.startDate, 'day')) {
+                    if (this.timePicker) {
+                        var hour = parseInt(this.container.find('.left .hourselect').val(), 10);
+                        if (!this.timePicker24Hour) {
+                            var ampm = this.container.find('.left .ampmselect').val();
+                            if (ampm === 'PM' && hour < 12)
+                                hour += 12;
+                            if (ampm === 'AM' && hour === 12)
+                                hour = 0;
+                        }
+                        var minute = parseInt(this.container.find('.left .minuteselect').val(), 10);
+                        var second = this.timePickerSeconds ? parseInt(this.container.find('.left .secondselect').val(), 10) : 0;
+                        date = date.clone().hour(hour).minute(minute).second(second);
+                    }
+                    this.setStartDate(date.clone());
+                }
                 this.setEndDate(date.clone());
             }
             //
