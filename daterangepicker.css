@@ -258,6 +258,7 @@
       .daterangepicker.rtl .ranges, .daterangepicker.rtl .calendar {
         text-align: right;
         float: right; } }
+
 @media (min-width: 730px) {
   .daterangepicker .ranges {
     width: auto; }
@@ -267,3 +268,4 @@
     float: right; }
   .daterangepicker .calendar.left {
     clear: none !important; } }
+
