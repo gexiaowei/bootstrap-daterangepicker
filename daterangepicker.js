@@ -569,7 +569,10 @@
                 }
 
                 this.leftCalendar.month = this.startDate.clone().date(2);
-                if (!this.linkedCalendars && (this.endDate.month() != this.startDate.month() || this.endDate.year() != this.startDate.year())) {
+                console.log(this.linkedCalendars);
+                if (this.endDate) {
+                    this.rightCalendar.month = this.endDate.clone().date(1);
+                } else if (!this.linkedCalendars && (this.endDate.month() != this.startDate.month() || this.endDate.year() != this.startDate.year())) {
                     this.rightCalendar.month = this.endDate.clone().date(2);
                 } else {
                     this.rightCalendar.month = this.startDate.clone().date(2).add(1, 'month');
@@ -821,11 +824,12 @@
 
                     //highlight the currently selected start date
                     if (this.startDate && calendar[row][col].format('YYYY-MM-DD') == this.startDate.format('YYYY-MM-DD'))
-                        classes.push('active', 'start-date');
+                        classes.push(side === 'left' ? 'active start-date' : 'in-range');
+
 
                     //highlight the currently selected end date
                     if (this.endDate != null && calendar[row][col].format('YYYY-MM-DD') == this.endDate.format('YYYY-MM-DD'))
-                        classes.push('active', 'end-date');
+                        classes.push(side === 'right' ? 'active end-date' : 'in-range');
 
                     //highlight dates in-between the selected dates
                     if (this.endDate != null && calendar[row][col] > this.startDate && calendar[row][col] < this.endDate)
@@ -1310,7 +1314,7 @@
 
         clickDate: function (e) {
 
-            if (!$(e.target).hasClass('available')) return;
+            if (!$(e.target).hasClass('available') || $(e.target).hasClass('off')) return;
 
             var title = $(e.target).attr('data-title');
             var row = title.substr(1, 1);
